@@ -1,0 +1,42 @@
+<div class="container">
+    <div class="col-md-6 col-md-offset-3">
+        <div class="row">
+            <div id="logo" class="text-center">
+                <h1>SEEKER</h1>
+                <p>Indexing your more frecuency pages</p>
+            </div>
+            <form role="form" id="form-search">
+                <div class="form-group">
+                    <div class="input-group">
+                        <div class="form-group  has-feedback">
+                            <input type="text" class="form-control" [(ngModel)]="newIndex.url" name="newIndex">
+                            <span class="glyphicon glyphicon-link form-control-feedback" aria-hidden="true"></span>
+                        </div>
+                        <span class="input-group-btn">
+                            <button class="btn btn-success" type="button" (click)="addIndex(newIndex)" [disabled]="!newIndex.url">Index</button>
+                        
+                            <button class="btn btn-danger" type="button" (click)="clear()">Clear</button>
+                        </span>
+                    </div>
+                </div>
+            </form>
+            <div *ngIf="showLoading" class="loading">
+                <img [src] = "loading" /> Proccessing...
+            </div>
+            <div *ngIf="showResutl" class="container-notice">
+                <div *ngIf="errorMessage" class="notice danger">
+                  <strong>Error</strong> - {{errorMessage}}
+                </div>
+                <div *ngIf="infoMessage" class="notice info">
+                  <strong>Info</strong> - This url has already been indexed or it can not be processed
+                </div>
+                <div *ngIf="noticeIndex" class="notice success">
+                  <strong>Success</strong> - Indexed {{recibedIndex.indexes}} new pages and {{recibedIndex.words}} words
+                </div>
+                <div *ngIf="noticeClean" class="notice success">
+                    <strong>Success</strong> - The index was cleaned
+                  </div>
+            </div>
+        </div>
+    </div>
+</div>
