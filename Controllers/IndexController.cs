@@ -54,9 +54,9 @@ namespace seeker.Controllers
         }
 
         [HttpDelete]
-        public void Delete([FromBody]IndexModel index)
+        public void Delete()
         {
-            context.db.GetCollection<IndexModel>("index").DeleteMany(x=>x.URL == index.URL);
+            context.db.GetCollection<IndexModel>("index").DeleteMany(new BsonDocument());
         }
 
         private bool Exist(string url, List<IndexModel> indexes)
