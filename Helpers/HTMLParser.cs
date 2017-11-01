@@ -74,7 +74,7 @@ namespace seeker.Helpers
             }
             catch(Exception exp)
             {
-                Console.WriteLine("Error getting "+ httpRequest.RequestUri.OriginalString +". "+ exp.Message);
+                Console.WriteLine("Error getting "+ httpRequest.RequestUri.AbsoluteUri +". "+ exp.Message);
                 return false;
             }
         }
@@ -101,13 +101,15 @@ namespace seeker.Helpers
             {
                 if (href.StartsWith("/"))
                 {
-                    href = httpRequest.RequestUri.OriginalString.Substring(0, httpRequest.RequestUri.OriginalString.IndexOf(httpRequest.Host) + httpRequest.Host.Length) + href;
+                    href = httpRequest.RequestUri.AbsoluteUri.Substring(0, httpRequest.RequestUri.AbsoluteUri.IndexOf(httpRequest.Host) + httpRequest.Host.Length) + href;
                 }
                 else
                 {
-                    href = httpRequest.RequestUri.OriginalString.Substring(0, httpRequest.RequestUri.OriginalString.LastIndexOf("/") + 1) + href;
+                    href = httpRequest.RequestUri.AbsoluteUri.Substring(0, httpRequest.RequestUri.AbsoluteUri.LastIndexOf("/") + 1) + href;
                 }
             }
+            else if(!href.Substring(href.LastIndexOf(".")).Contains("/"))
+                href+="/";
             return href;
         }
 

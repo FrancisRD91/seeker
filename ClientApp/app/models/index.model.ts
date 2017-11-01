@@ -1,5 +1,6 @@
-export interface IndexModel {
+export class IndexModel {
+    success: boolean;
     url?: string;
-    indexs?: string;
-    words?: string;
+    indexes?: number;
+    words?: number;
 }

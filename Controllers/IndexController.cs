@@ -10,6 +10,8 @@ using seeker.Services;
 using seeker.Helpers;
 using HtmlAgilityPack;
 using System.Threading.Tasks;
+using System.Text.RegularExpressions;
+using System;
 
 namespace seeker.Controllers
 {
@@ -45,18 +47,23 @@ namespace seeker.Controllers
             HTMLParser htmlParser = null;
             ProcessURL(htmlParser, index.URL, _indexes, 1);
             response.Indexes = _indexes.Count;
+            response.Words = 0;
             foreach (var _index in _indexes)
             {
                 context.db.GetCollection<IndexModel>("index").InsertOne(_index);
                 response.Words+=_index.Words.Length;
             }
+            response.Success = true;
             return response;
         }
 
         [HttpDelete]
-        public void Delete()
+        public IndexResponse Delete()
         {
+            var response = new IndexResponse();
             context.db.GetCollection<IndexModel>("index").DeleteMany(new BsonDocument());
+            response.Success = true;
+            return response;
         }
 
         private bool Exist(string url, List<IndexModel> indexes)
@@ -71,6 +78,8 @@ namespace seeker.Controllers
 
         private void ProcessURL(HTMLParser htmlParser, string url, List<IndexModel> indexes, int level)
         {
+            if(!Uri.IsWellFormedUriString(url,UriKind.Absolute))
+                return;
             if (Exist(url, this.indexes) || indexDic.ContainsKey(url))
                 return;
             htmlParser = new HTMLParser(url);
