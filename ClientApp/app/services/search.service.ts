@@ -6,31 +6,22 @@ import "rxjs/add/operator/map";
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/throw';
 
-import { IndexModel } from "../models/index.model"; 
+import { SearchModel } from "../models/search.model"; 
 
 @Injectable()
-export class IndexService{
+export class SearchService{
     private baseUrl: string;
-    
+
     constructor(private http:Http){
         this.baseUrl = '/api/';
     }
-    
-    public create(index: IndexModel): Observable<IndexModel>{
+
+    public search(search: SearchModel): Observable<SearchModel[]>{
         var headers = new Headers();
         headers.append('Content-Type', 'application/json; charset=utf-8');
         
-        return this.http.post(`${this.baseUrl}index`,JSON.stringify(index),{headers:headers})
-        .map(response => <IndexModel> response.json())
-        .catch(this.handleError)
-    }
-    
-    public delete(): Observable<IndexModel>{
-        var headers = new Headers();
-        headers.append('Content-Type', 'application/json; charset=utf-8');
-        
-        return this.http.delete(`${this.baseUrl}index`,{headers:headers})
-        .map(response => <IndexModel> response.json())
+        return this.http.post(`${this.baseUrl}search`,JSON.stringify(search),{headers:headers})
+        .map(response => <SearchModel[]> response.json())
         .catch(this.handleError)
     }
 

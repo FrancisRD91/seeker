@@ -1,0 +1,34 @@
+<div class="container">
+    <div class="col-md-6 col-md-offset-3">
+        <div class="row">
+            <div id="logo" class="text-center">
+                <h1>SEEKER</h1>
+                <p>Searching word</p>
+            </div>
+            <form role="form" id="form-search">
+                <div class="form-group">
+                    <div class="input-group">
+                        <input id="1" class="form-control" type="text" name="search" [(ngModel)]="newSearch.word" placeholder="Search..." required/>
+                        <span class="input-group-btn">
+                            <button class="btn btn-success" type="button" (click)="search(newSearch)">
+                                <i class="glyphicon glyphicon-search" aria-hidden="true"></i> Search
+                            </button>
+                        </span>
+                    </div>
+                </div>
+            </form>
+            <div *ngIf="showLoading" class="loading">
+                <img [src] = "loading" /> Proccessing...
+            </div>
+            <div *ngIf="showResult" class="container-notice">
+                <div class="notice info">
+                  <strong>{{resultMessage}}</strong>
+                </div>
+                <div *ngFor="let result of results" class="notice results">
+                  <a [href]="result.url">{{result.title}}</a>
+                  <span>Occurrences: {{result.occurrences}}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
