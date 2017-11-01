@@ -13,7 +13,7 @@
                             <span class="glyphicon glyphicon-link form-control-feedback" aria-hidden="true"></span>
                         </div>
                         <span class="input-group-btn">
-                            <button class="btn btn-success" type="button" (click)="addIndex(newIndex)">Index</button>
+                            <button class="btn btn-success" type="button" (click)="addIndex(newIndex)" [disabled]="!newIndex.url">Index</button>
                         
                             <button class="btn btn-danger" type="button" (click)="clear()">Clear</button>
                         </span>
