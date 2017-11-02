@@ -62,6 +62,7 @@ namespace seeker.Controllers
         {
             var response = new IndexResponse();
             context.db.GetCollection<IndexModel>("index").DeleteMany(new BsonDocument());
+            context.db.GetCollection<SearchModel>("search").DeleteMany(new BsonDocument());
             response.Success = true;
             return response;
         }
