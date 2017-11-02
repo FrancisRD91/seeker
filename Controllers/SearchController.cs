@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Bson;
 using MongoDB.Driver;
@@ -44,7 +45,8 @@ namespace seeker.Controllers
             this.searches = GetAllSearchesFromDB();
 
             DoSearch(search.Word, _searches);
-            return _searches;
+            _searches.Sort((s1,s2)=>s2.Occurrences.CompareTo(s1.Occurrences));
+            return _searches.Where(s=>s.Occurrences != 0);
         }
 
         private void DoSearch(string word, List<SearchResponse> searches)
@@ -79,7 +81,7 @@ namespace seeker.Controllers
         private SearchModel GetSearch(string word, ObjectId urlId)
         {
             int i = 0;
-            while (i < searches.Count && !searches[i].Word.Equals(word) && searches[i].URLId.CompareTo(urlId)!=0)
+            while (i < searches.Count && (!searches[i].Word.Equals(word) || searches[i].URLId.CompareTo(urlId)!=0))
             {
                 i++;
             }
